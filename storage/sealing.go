@@ -47,3 +47,7 @@ func (m *Miner) RemoveSector(ctx context.Context, id abi.SectorNumber) error {
 func (m *Miner) MarkForUpgrade(id abi.SectorNumber) error {
 	return m.sealing.MarkForUpgrade(id)
 }
+
+func (m *Miner) SetSealDelay(hours uint64) error {
+	return m.sealing.SetSealDelay(hours)
+}

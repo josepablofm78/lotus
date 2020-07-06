@@ -35,9 +35,12 @@ type StorageMiner interface {
 
 	SectorsRefs(context.Context) (map[string][]SealedRef, error)
 
-	// SectorStartSealing can be called on sectors in Empty on WaitDeals states
+	// SectorStartSealing can be called on sectors in Empty or WaitDeals states
 	// to trigger sealing early
 	SectorStartSealing(context.Context, abi.SectorNumber) error
+	// SectorSetSealDelay sets the time, in hours, that a newly-created sector
+	// waits for more deals before it starts sealing
+	SectorSetSealDelay(context.Context, uint64) error
 	SectorsUpdate(context.Context, abi.SectorNumber, SectorState) error
 	SectorRemove(context.Context, abi.SectorNumber) error
 	SectorMarkForUpgrade(ctx context.Context, id abi.SectorNumber) error

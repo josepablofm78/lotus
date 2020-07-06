@@ -206,6 +206,7 @@ type StorageMinerStruct struct {
 		SectorsList          func(context.Context) ([]abi.SectorNumber, error)               `perm:"read"`
 		SectorsRefs          func(context.Context) (map[string][]api.SealedRef, error)       `perm:"read"`
 		SectorStartSealing   func(context.Context, abi.SectorNumber) error                   `perm:"write"`
+		SectorSetSealDelay   func(context.Context, uint64) error                             `perm:"write"`
 		SectorsUpdate        func(context.Context, abi.SectorNumber, api.SectorState) error  `perm:"admin"`
 		SectorRemove         func(context.Context, abi.SectorNumber) error                   `perm:"admin"`
 		SectorMarkForUpgrade func(ctx context.Context, id abi.SectorNumber) error            `perm:"admin"`
@@ -796,6 +797,10 @@ func (c *StorageMinerStruct) SectorsRefs(ctx context.Context) (map[string][]api.
 
 func (c *StorageMinerStruct) SectorStartSealing(ctx context.Context, number abi.SectorNumber) error {
 	return c.Internal.SectorStartSealing(ctx, number)
+}
+
+func (c *StorageMinerStruct) SectorSetSealDelay(ctx context.Context, hours uint64) error {
+	return c.Internal.SectorSetSealDelay(ctx, hours)
 }
 
 func (c *StorageMinerStruct) SectorsUpdate(ctx context.Context, id abi.SectorNumber, state api.SectorState) error {

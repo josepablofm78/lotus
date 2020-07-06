@@ -181,6 +181,10 @@ func (sm *StorageMinerAPI) SectorStartSealing(ctx context.Context, number abi.Se
 	return sm.Miner.StartPackingSector(number)
 }
 
+func (sm *StorageMinerAPI) SectorSetSealDelay(ctx context.Context, hours uint64) error {
+	return sm.Miner.SetSealDelay(hours)
+}
+
 func (sm *StorageMinerAPI) SectorsUpdate(ctx context.Context, id abi.SectorNumber, state api.SectorState) error {
 	return sm.Miner.ForceSectorState(ctx, id, sealing.SectorState(state))
 }
