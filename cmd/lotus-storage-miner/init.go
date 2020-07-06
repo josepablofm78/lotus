@@ -11,6 +11,7 @@ import (
 	"os"
 	"path/filepath"
 	"strconv"
+	"time"
 
 	"github.com/docker/go-units"
 	"github.com/google/uuid"
@@ -438,7 +439,13 @@ func storageMinerInit(ctx context.Context, cctx *cli.Context, api lapi.FullNode,
 
 			smgr, err := sectorstorage.New(ctx, lr, stores.NewIndex(), &ffiwrapper.Config{
 				SealProofType: spt,
-			}, sectorstorage.SealerConfig{true, true, true, true}, nil, sa)
+			}, sectorstorage.SealerConfig{
+				SealDelay:       time.Hour,
+				AllowPreCommit1: true,
+				AllowPreCommit2: true,
+				AllowCommit:     true,
+				AllowUnseal:     true,
+			}, nil, sa)
 			if err != nil {
 				return err
 			}

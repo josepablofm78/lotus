@@ -4,8 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"net/http"
-
 	"github.com/ipfs/go-bitswap"
 	"github.com/ipfs/go-bitswap/network"
 	"github.com/ipfs/go-blockservice"
@@ -22,6 +20,7 @@ import (
 	"go.uber.org/fx"
 	"go.uber.org/multierr"
 	"golang.org/x/xerrors"
+	"net/http"
 
 	"github.com/filecoin-project/go-address"
 	dtgraphsync "github.com/filecoin-project/go-data-transfer/impl/graphsync"
@@ -520,6 +519,24 @@ func NewSetConsiderOfflineRetrievalDealsConfigFunc(r repo.LockedRepo) (dtypes.Se
 	return func(b bool) (err error) {
 		err = mutateCfg(r, func(cfg *config.StorageMiner) {
 			cfg.Dealmaking.ConsiderOfflineRetrievalDeals = b
+		})
+		return
+	}, nil
+}
+
+func NewSetSealDelayFunc(r repo.LockedRepo) (dtypes.SetSealingDelayFunc, error) {
+	return func(delay config.Duration) (err error) {
+		err = mutateCfg(r, func(cfg *config.StorageMiner) {
+			cfg.SealingDelay = delay
+		})
+		return
+	}, nil
+}
+
+func NewGetSealDelayFunc(r repo.LockedRepo) (dtypes.GetSealingDelayFunc, error) {
+	return func() (out config.Duration, err error) {
+		err = readCfg(r, func(cfg *config.StorageMiner) {
+			out = cfg.SealingDelay
 		})
 		return
 	}, nil
