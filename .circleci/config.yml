@@ -6,7 +6,7 @@ executors:
   golang:
     docker:
       - image: circleci/golang:1.14.2
-    resource_class: 2xlarge
+    resource_class: medium
   ubuntu:
     docker:
       - image: ubuntu:19.10
